@@ -1,0 +1,60 @@
+version: '2'
+services:
+
+  elasticsearch:
+    image: elasticsearch
+    restart: unless-stopped
+    container_name: elasticsearch4${COMPOSE_PROJECT_NAME}
+    stdin_open: true
+    # tty: true
+    labels:
+        org.geonode.component: elasticsearch
+        org.geonode.instance.name: geonode
+
+  rabbitmq:
+    image: rabbitmq
+    restart: unless-stopped
+    container_name: rabbitmq4${COMPOSE_PROJECT_NAME}
+    stdin_open: true
+    tty: true
+    labels:
+        org.geonode.component: rabbitmq
+        org.geonode.instance.name: geonode
+
+  celery:
+    restart: unless-stopped
+    build: .    
+    container_name: celery4${COMPOSE_PROJECT_NAME}
+    stdin_open: true
+    # tty: true
+    labels:
+        org.geonode.component: celery
+        org.geonode.instance.name: geonode
+    depends_on:
+      - db
+      - elasticsearch
+      - rabbitmq
+    command: celery worker --app=geonode.celery_app:app -B -l INFO
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+      - ./scripts/docker/env/production/celery.env
+
+  consumers:
+    build: .
+    restart: unless-stopped
+    container_name: consumers4${COMPOSE_PROJECT_NAME}
+    stdin_open: true
+    # tty: true
+    labels:
+        org.geonode.component: consumers
+        org.geonode.instance.name: geonode
+    depends_on:
+      - rabbitmq
+      - db
+      - elasticsearch
+    command: python manage.py runmessaging
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+      - ./scripts/docker/env/production/django.env
