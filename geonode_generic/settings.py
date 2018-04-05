@@ -31,7 +31,7 @@ except ImportError:
 #
 PROJECT_NAME = 'geonode_generic'
 
-SITENAME = 'geonode_generic'
+SITENAME = os.genenv("SITENAME", 'geonode_generic')
 
 # Defines the directory that contains the settings file as the LOCAL_ROOT
 # It is used for relative settings elsewhere.
@@ -39,10 +39,17 @@ LOCAL_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 WSGI_APPLICATION = "{}.wsgi.application".format(PROJECT_NAME)
 
-ALLOWED_HOSTS = ['localhost', 'django'] if os.getenv('ALLOWED_HOSTS') is None \
-    else re.split(r' *[,|:|;] *', os.getenv('ALLOWED_HOSTS'))
+try:
+    ALLOWED_HOSTS = ast.literal_eval(os.getenv('ALLOWED_HOSTS'))
+except:
+    ALLOWED_HOSTS = ['localhost', ] if os.getenv('ALLOWED_HOSTS') is None \
+        else re.split(r' *[,|:|;] *', os.getenv('ALLOWED_HOSTS'))
 
-PROXY_ALLOWED_HOSTS += ('nominatim.openstreetmap.org',)
+_PROXY_OSM = ('nominatim.openstreetmap.org',)
+try:
+    PROXY_ALLOWED_HOSTS += _PROXY_OSM
+except NameError:
+    PROXY_ALLOWED_HOSTS = _PROXY_OSM
 
 # AUTH_IP_WHITELIST property limits access to users/groups REST endpoints
 # to only whitelisted IP addresses.

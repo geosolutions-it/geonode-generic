@@ -1,0 +1,51 @@
+version: '2'
+catalog:
+    questions:
+        - variable: "EXPOSED_HTTP_PORT"
+          label: "External ngxin port"
+          description: |
+                Port number on which nginx from this deployment will
+                be visible on the host. If you have multiple stacks or nginx
+                or load balancer running on host, you should set distinct
+                port here.
+          default: 80
+          required: true
+          type: 'int'
+
+        - variable: "ALLOWED_HOSTS"
+          label: "List of allowed host header values"
+          description: |
+                List of host header values which should be permitted. You
+                should add full-qualified domain names under which deployment
+                is visible. Default values, `django` and `geonode` values are added
+                internally.
+           required: true
+           type: string
+         - variable: "SITEURL"
+           label: "Default URL for site"
+           description: |
+                URL to default location of site. It will be used to construct
+                absolute urls.
+            required: true
+            type: string
+          - variable: "SITENAME"
+            label: "Name of site"
+            description: |
+                Name of the site to be used in title
+            required: false
+            default: "GeoNode"
+            type: string
+          - variable: "ADMIN_EMAILS"
+            label: "List of admin emails"
+            description: |
+                List of emails of admins, who should receive notifications. Entries
+                should be separated with coma.
+            required: false
+            type: string
+
+services:
+    db:
+    django:
+    geoserver:
+    geonode:
+    data-dir-conf:
