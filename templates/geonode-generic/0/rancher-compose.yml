@@ -2,10 +2,9 @@ version: '2'
 catalog:
     name: "GeoNode generic"
     version: "v1.0"
-    description: |
-        Generic GeoNode deployment
+    description: "Generic GeoNode deployment"
     uuid: geonode-generic-0
-    minimum_rancher_version: v1.6
+    minimum_rancher_version: 'v1.6'
 
     questions:
         - variable: "EXPOSED_HTTP_PORT"
@@ -24,11 +23,11 @@ catalog:
           description: |
                 List of host header values which should be permitted. You
                 should add full-qualified domain names under which deployment
-                is visible. Default values, `django` and `geonode` values are added
+                is visible. Default values, django and geonode values are added
                 internally.
            required: true
            type: string
-           default: '[]'
+           default: "[]"
 
          - variable: "SITEURL"
            label: "Default URL for site"
