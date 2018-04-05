@@ -335,7 +335,7 @@ NOTIFICATIONS_MODULE = 'pinax.notifications'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-MONITORING_ENABLED = False
+MONITORING_ENABLED = True
 # add following lines to your local settings to enable monitoring
 if MONITORING_ENABLED:
     INSTALLED_APPS += ('geonode.contrib.monitoring',)
