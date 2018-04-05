@@ -23,8 +23,7 @@ catalog:
           description: |
                 List of host header values which should be permitted. You
                 should add full-qualified domain names under which deployment
-                is visible. Default values, django and geonode values are added
-                internally.
+                is visible. Default values, django and geonode values are added internally.
            required: true
            type: string
            default: "[]"
