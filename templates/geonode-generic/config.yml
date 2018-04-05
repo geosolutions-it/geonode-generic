@@ -1,8 +1,8 @@
-name: Generic GeoNode
+name: "Generic GeoNode"
 description: |
     Generic GeoNode deployment
-version: v1 
-category: GIS
-maintainer: Geo-Solutions.it
-license: GPL
-projectURL: http://geonode.org
+version: "v1"
+category: "GIS"
+maintainer: "Geo-Solutions.it"
+license: "GPL"
+projectURL: "http://geonode.org"
