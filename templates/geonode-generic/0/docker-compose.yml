@@ -1,6 +1,5 @@
 version: '2'
 services:
-
   db:
     image: geosolutionsit/postgis-docker:9.6
     restart: unless-stopped
@@ -34,6 +33,11 @@ services:
       - statics:/mnt/volumes/statics
     env_file:
       - ./scripts/docker/env/production/django.env
+    environment:
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+      ADMIN_EMAILS: ${ADMIN_EMAILS}
+      SITEURL: ${SITEURL}
+      
 
   geoserver:
     image: geosolutionsit/geoserver-docker:2.12.x

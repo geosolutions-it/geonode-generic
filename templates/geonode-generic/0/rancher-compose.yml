@@ -21,6 +21,7 @@ catalog:
                 internally.
            required: true
            type: string
+           default: 
          - variable: "SITEURL"
            label: "Default URL for site"
            description: |
@@ -28,6 +29,7 @@ catalog:
                 absolute urls.
             required: true
             type: string
+            default:
           - variable: "SITENAME"
             label: "Name of site"
             description: |
@@ -42,10 +44,16 @@ catalog:
                 should be separated with coma.
             required: false
             type: string
+            default:
 
 services:
     db:
+        scale: 1
     django:
+        scale: 1
     geoserver:
+        scale: 1
     geonode:
+        scale: 1
     data-dir-conf:
+        scale: 1
