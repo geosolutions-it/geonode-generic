@@ -43,10 +43,11 @@ RUN ln -fs /usr/lib/python2.7/plat-x86_64-linux-gnu/_sysconfigdata*.py /usr/lib/
 #RUN cp /usr/src/geonode/tasks.py /usr/src/app/
 #RUN cp /usr/src/geonode/entrypoint.sh /usr/src/app/
 
+COPY . /usr/src/app
+
 RUN chmod +x /usr/src/app/tasks.py \
     && chmod +x /usr/src/app/entrypoint.sh
 
-COPY . /usr/src/app
 
 # app-specific requirements
 RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt
