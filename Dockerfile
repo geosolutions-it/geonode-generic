@@ -1,5 +1,5 @@
 FROM python:2.7.14-stretch
-MAINTAINER Geo-Solutions.it
+LABEL maintainer="c.statkiewicz@geo-solutions.it"
 
 RUN mkdir -p /usr/src/{app,geonode}
 
