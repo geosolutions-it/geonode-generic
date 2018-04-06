@@ -67,4 +67,6 @@ services:
     geonode:
         scale: 1
     data-dir-conf:
+        labels:
+            io.rancher.container.start_once: true
         scale: 1

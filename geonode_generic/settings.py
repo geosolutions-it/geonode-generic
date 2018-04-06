@@ -348,9 +348,8 @@ if MONITORING_ENABLED:
     INSTALLED_APPS += ('geonode.contrib.monitoring',)
     MIDDLEWARE_CLASSES += ('geonode.contrib.monitoring.middleware.MonitoringMiddleware',)
     MONITORING_CONFIG = None
-    MONITORING_HOST_NAME = 'localhost'
+    MONITORING_HOST_NAME = os.getenv("MONITORING_HOST_NAME", 'localhost')
     MONITORING_SERVICE_NAME = 'local-geonode'
-    MONITORING_HOST_NAME = SITE_HOST_NAME
 
 GEOIP_PATH = os.path.join(os.path.dirname(__file__), '..', 'GeoLiteCity.dat')
 
