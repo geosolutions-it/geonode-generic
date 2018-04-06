@@ -31,7 +31,7 @@ except ImportError:
 #
 PROJECT_NAME = 'geonode_generic'
 
-SITENAME = os.genenv("SITENAME", 'geonode_generic')
+SITENAME = os.getenv("SITENAME", 'geonode_generic')
 
 # Defines the directory that contains the settings file as the LOCAL_ROOT
 # It is used for relative settings elsewhere.
