@@ -40,27 +40,17 @@ RUN cd /usr/src/geonode/; pip install --no-cache-dir -r requirements.txt; pip in
 
 RUN ln -fs /usr/lib/python2.7/plat-x86_64-linux-gnu/_sysconfigdata*.py /usr/lib/python2.7/
 
-RUN cp /usr/src/geonode/tasks.py /usr/src/app/
-RUN cp /usr/src/geonode/entrypoint.sh /usr/src/app/
+#RUN cp /usr/src/geonode/tasks.py /usr/src/app/
+#RUN cp /usr/src/geonode/entrypoint.sh /usr/src/app/
 
 RUN chmod +x /usr/src/app/tasks.py \
     && chmod +x /usr/src/app/entrypoint.sh
 
-# use latest master
-ONBUILD RUN cd /usr/src/geonode/; git pull ; pip install --no-cache-dir -r requirements.txt; pip install --no-deps -e .
+COPY . /usr/src/app
 
-ONBUILD COPY . /usr/src/app
-
-ONBUILD RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt
-ONBUILD RUN pip install -e /usr/src/app
-
-# Update the requirements from the local env in case they differ from the pre-built ones.
-ONBUILD COPY requirements.txt /usr/src/app/
-ONBUILD RUN pip install --no-cache-dir -r requirements.txt
-
-ONBUILD COPY . /usr/src/app/
-
-ONBUILD RUN pip install --no-deps --no-cache-dir -e /usr/src/app/
+# app-specific requirements
+RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt
+RUN pip install -e /usr/src/app
 
 EXPOSE 8000
 
