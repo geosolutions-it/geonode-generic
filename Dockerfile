@@ -49,7 +49,6 @@ COPY . /usr/src/app
 RUN chmod +x /usr/src/app/tasks.py \
     && chmod +x /usr/src/app/entrypoint.sh
 
-
 # app-specific requirements
 RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt
 RUN pip install -e /usr/src/app
