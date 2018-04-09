@@ -26,12 +26,13 @@ def update(ctx):
     print "Public PORT is {0}".format(pub_port)
     db_url = _update_db_connstring()
     geodb_url = _update_geodb_connstring()
+    override_env = "$HOME/.override_env"
     envs = {
         "public_fqdn": "{0}:{1}".format(pub_ip, pub_port or 80),
         "public_host": "{0}".format(pub_ip),
         "dburl": db_url,
         "geodburl": geodb_url,
-        "override_fn": "$HOME/.override_env"
+        "override_fn": override_env
     }
     if not os.environ.get('GEOSERVER_PUBLIC_LOCATION'):
         ctx.run("echo export GEOSERVER_PUBLIC_LOCATION=\
@@ -45,10 +46,9 @@ http://{public_fqdn}/ >> {override_fn}".format(**envs), pty=True)
     except ValueError:
         current_allowed = []
     current_allowed.extend(['{}'.format(pub_ip), '{}:{}'.format(pub_ip, pub_port)])
-    allowed_hosts = ['"{}"'.format(c) for c in current_allowed] + ['geonode', 'django']
+    allowed_hosts = ['"{}"'.format(c) for c in current_allowed] + ['"geonode"', '"django"']
 
-    ctx.run('export ALLOWED_HOSTS="\\"{}\\""'.format(allowed_hosts), pty=True)
-    ctx.run('echo export ALLOWED_HOSTS="\\"{}\\"">> {}'.format(allowed_hosts, override_fn), pty=True)
+    ctx.run('echo export ALLOWED_HOSTS="\\"{}\\"" >> {}'.format(allowed_hosts, override_env), pty=True)
 
     if not os.environ.get('DATABASE_URL'):
         ctx.run("echo export DATABASE_URL=\
@@ -56,7 +56,8 @@ http://{public_fqdn}/ >> {override_fn}".format(**envs), pty=True)
     if not os.environ.get('GEODATABASE_URL'):
         ctx.run("echo export GEODATABASE_URL=\
 {geodburl} >> {override_fn}".format(**envs), pty=True)
-    ctx.run("source $HOME/.override_env", pty=True)
+    #ctx.run("source $HOME/.override_env", pty=True)
+    ctx.run('cat $HOME/.override_env')
 
     print "****************************final**********************************"
     ctx.run("env", pty=True)
@@ -72,6 +73,7 @@ def migrations(ctx):
 @task
 def statics(ctx):
     print "**************************migrations*******************************"
+    ctx.run('mkdir -p /mnt/volumes/statics/{static,uploads}')
     ctx.run("python manage.py collectstatic --noinput --clear --settings={0}".format(
         _localsettings()
     ), pty=True)
