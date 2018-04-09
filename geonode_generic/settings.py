@@ -21,10 +21,10 @@
 # Django settings for the GeoNode project.
 import os
 # Load more settings from a file called local_settings.py if it exists
-try:
-    from geonode.local_settings import *
-except ImportError:
-    from geonode.settings import *
+#try:
+#    from geonode.local_settings import *
+#except ImportError:
+from geonode.settings import *
 
 #
 # General Django development settings
