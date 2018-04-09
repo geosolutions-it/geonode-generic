@@ -21,17 +21,17 @@
 # Django settings for the GeoNode project.
 import os
 # Load more settings from a file called local_settings.py if it exists
-try:
-    from geonode.local_settings import *
-except ImportError:
-    from geonode.settings import *
+#try:
+#    from geonode.local_settings import *
+#except ImportError:
+from geonode.settings import *
 
 #
 # General Django development settings
 #
 PROJECT_NAME = 'geonode_generic'
 
-SITENAME = 'geonode_generic'
+SITENAME = os.getenv("SITENAME", 'geonode_generic')
 
 # Defines the directory that contains the settings file as the LOCAL_ROOT
 # It is used for relative settings elsewhere.
@@ -39,10 +39,17 @@ LOCAL_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 WSGI_APPLICATION = "{}.wsgi.application".format(PROJECT_NAME)
 
-ALLOWED_HOSTS = ['localhost', 'django'] if os.getenv('ALLOWED_HOSTS') is None \
-    else re.split(r' *[,|:|;] *', os.getenv('ALLOWED_HOSTS'))
+try:
+    ALLOWED_HOSTS = ast.literal_eval(os.getenv('ALLOWED_HOSTS'))
+except:
+    ALLOWED_HOSTS = ['localhost', ] if os.getenv('ALLOWED_HOSTS') is None \
+        else re.split(r' *[,|:|;] *', os.getenv('ALLOWED_HOSTS'))
 
-PROXY_ALLOWED_HOSTS += ('nominatim.openstreetmap.org',)
+_PROXY_OSM = ('nominatim.openstreetmap.org',)
+try:
+    PROXY_ALLOWED_HOSTS += _PROXY_OSM
+except NameError:
+    PROXY_ALLOWED_HOSTS = _PROXY_OSM
 
 # AUTH_IP_WHITELIST property limits access to users/groups REST endpoints
 # to only whitelisted IP addresses.
@@ -335,15 +342,14 @@ NOTIFICATIONS_MODULE = 'pinax.notifications'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-MONITORING_ENABLED = False
+MONITORING_ENABLED = True
 # add following lines to your local settings to enable monitoring
 if MONITORING_ENABLED:
     INSTALLED_APPS += ('geonode.contrib.monitoring',)
     MIDDLEWARE_CLASSES += ('geonode.contrib.monitoring.middleware.MonitoringMiddleware',)
     MONITORING_CONFIG = None
-    MONITORING_HOST_NAME = 'localhost'
+    MONITORING_HOST_NAME = os.getenv("MONITORING_HOST_NAME", 'localhost')
     MONITORING_SERVICE_NAME = 'local-geonode'
-    MONITORING_HOST_NAME = SITE_HOST_NAME
 
 GEOIP_PATH = os.path.join(os.path.dirname(__file__), '..', 'GeoLiteCity.dat')
 

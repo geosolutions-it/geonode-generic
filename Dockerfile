@@ -1,5 +1,5 @@
 FROM python:2.7.14-stretch
-MAINTAINER Geo-Solutions.it
+LABEL maintainer="c.statkiewicz@geo-solutions.it"
 
 RUN mkdir -p /usr/src/{app,geonode}
 
@@ -32,7 +32,8 @@ RUN pip install --upgrade pip
 
 # python-gdal does not seem to work, let's install manually the version that is
 # compatible with the provided libgdal-dev
-RUN pip install GDAL==2.1.3 --global-option=build_ext --global-option="-I/usr/include/gdal"
+# superseded by pygdal
+#RUN pip install GDAL==2.1.3 --global-option=build_ext --global-option="-I/usr/include/gdal"
 
 # install shallow clone of geonode master branch
 RUN git clone --depth=1 git://github.com/GeoNode/geonode.git --branch master /usr/src/geonode
@@ -40,27 +41,17 @@ RUN cd /usr/src/geonode/; pip install --no-cache-dir -r requirements.txt; pip in
 
 RUN ln -fs /usr/lib/python2.7/plat-x86_64-linux-gnu/_sysconfigdata*.py /usr/lib/python2.7/
 
-RUN cp /usr/src/geonode/tasks.py /usr/src/app/
-RUN cp /usr/src/geonode/entrypoint.sh /usr/src/app/
+#RUN cp /usr/src/geonode/tasks.py /usr/src/app/
+#RUN cp /usr/src/geonode/entrypoint.sh /usr/src/app/
+
+COPY . /usr/src/app
 
 RUN chmod +x /usr/src/app/tasks.py \
     && chmod +x /usr/src/app/entrypoint.sh
 
-# use latest master
-ONBUILD RUN cd /usr/src/geonode/; git pull ; pip install --no-cache-dir -r requirements.txt; pip install --no-deps -e .
-
-ONBUILD COPY . /usr/src/app
-
-ONBUILD RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt
-ONBUILD RUN pip install -e /usr/src/app
-
-# Update the requirements from the local env in case they differ from the pre-built ones.
-ONBUILD COPY requirements.txt /usr/src/app/
-ONBUILD RUN pip install --no-cache-dir -r requirements.txt
-
-ONBUILD COPY . /usr/src/app/
-
-ONBUILD RUN pip install --no-deps --no-cache-dir -e /usr/src/app/
+# app-specific requirements
+RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt
+RUN pip install -e /usr/src/app
 
 EXPOSE 8000
 
