@@ -48,7 +48,7 @@ http://{public_fqdn}/ >> {override_fn}".format(**envs), pty=True)
     allowed_hosts = ['"{}"'.format(c) for c in current_allowed] + ['geonode', 'django']
 
     ctx.run('export ALLOWED_HOSTS="\\"{}\\""'.format(allowed_hosts), pty=True)
-    ctx.run('echo export ALLOWED_HOSTS="\\"{}\\""'.format(allowed_hosts), pty=True)
+    ctx.run('echo export ALLOWED_HOSTS="\\"{}\\"">> {}'.format(allowed_hosts, override_fn), pty=True)
 
     if not os.environ.get('DATABASE_URL'):
         ctx.run("echo export DATABASE_URL=\
@@ -57,6 +57,7 @@ http://{public_fqdn}/ >> {override_fn}".format(**envs), pty=True)
         ctx.run("echo export GEODATABASE_URL=\
 {geodburl} >> {override_fn}".format(**envs), pty=True)
     ctx.run("source $HOME/.override_env", pty=True)
+
     print "****************************final**********************************"
     ctx.run("env", pty=True)
 
