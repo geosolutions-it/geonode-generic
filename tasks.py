@@ -39,15 +39,17 @@ http://{public_fqdn}/geoserver/ >> {override_fn}".format(**envs), pty=True)
     if not os.environ.get('SITEURL'):
         ctx.run("echo export SITEURL=\
 http://{public_fqdn}/ >> {override_fn}".format(**envs), pty=True)
+
     try:
         current_allowed = ast.literal_eval(os.getenv('ALLOWED_HOSTS') or '[]')
     except ValueError:
         current_allowed = []
     current_allowed.extend(['{}'.format(pub_ip), '{}:{}'.format(pub_ip, pub_port)])
-    allowed_hosts = ['"{}"'.format(c) for c in current_allowed]
+    allowed_hosts = ['"{}"'.format(c) for c in current_allowed] + ['geonode', 'django']
 
     ctx.run('export ALLOWED_HOSTS="\\"{}\\""'.format(allowed_hosts), pty=True)
     ctx.run('echo export ALLOWED_HOSTS="\\"{}\\""'.format(allowed_hosts), pty=True)
+
     if not os.environ.get('DATABASE_URL'):
         ctx.run("echo export DATABASE_URL=\
 {dburl} >> {override_fn}".format(**envs), pty=True)
