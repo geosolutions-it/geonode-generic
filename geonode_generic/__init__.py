@@ -35,7 +35,7 @@ class GenericGeonodeConfig(AppConfig):
         if settings.MONITORING_ENABLED:
             from geonode.contrib.monitoring.models import Service, do_autoconfigure
             # run autoconfigure only if there are no services defined
-            if not Service.objects.all().exists():
+            if not Service.objects.all():
                 do_autoconfigure()
 
     def ready(self):
