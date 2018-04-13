@@ -61,6 +61,7 @@ services:
     db:
         scale: 1
     django:
+        retain_ip: true
         scale: 1
     geoserver:
         scale: 1
