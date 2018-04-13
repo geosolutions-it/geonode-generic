@@ -24,7 +24,7 @@ services:
   django:
     restart: unless-stopped
     image: geosolutionsit/geonode-generic:master
-#    build: ../../../. 
+#    build: ../../../.
     # image: geonode/geonode:latest
     container_name: django4${COMPOSE_PROJECT_NAME}
     stdin_open: true
@@ -45,8 +45,8 @@ services:
 
     environment:
        GEONODE_INSTANCE_NAME: geonode
-       GEONODE_LB_HOST_IP: 
-       GEONODE_LB_PORT: 
+       GEONODE_LB_HOST_IP:
+       GEONODE_LB_PORT:
        DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
        DEFAULT_BACKEND_DATASTORE: datastore
        GEONODE_DATABASE: geonode
@@ -61,13 +61,13 @@ services:
        IS_CELERY: False
        C_FORCE_ROOT: 1
        SITEURL: ${SITEURL}
-       GEOSERVER_PUBLIC_LOCATION: ${SITEURL}/geoserver/
+       GEOSERVER_PUBLIC_LOCATION: ${SITEURL}geoserver/
        GEOSERVER_LOCATION: http://geoserver:8080/geoserver/
        STATIC_ROOT: /mnt/volumes/statics/static/
        MEDIA_ROOT: /mnt/volumes/statics/uploaded/
        ALLOWED_HOSTS: ${ALLOWED_HOSTS}
        ADMIN_EMAILS: ${ADMIN_EMAILS}
-      
+
 
   geoserver:
     image: geosolutionsit/geoserver-docker:2.12.x
@@ -86,11 +86,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - geoserver-data-dir:/geoserver_data/data
     environment:
-        DOCKERHOST: 
-        GEONODE_LB_HOST_IP: 
-        GEONODE_LB_PORT: 
+        DOCKERHOST:
+        GEONODE_LB_HOST_IP:
+        GEONODE_LB_PORT:
         PUBLIC_PORT: 80
-        DOCKER_HOST_IP: 
+        DOCKER_HOST_IP:
+        NGINX_BASE_URL: ${SITEURL}
+        DJANGO_URL: ${SITEURL}
 #    env_file:
 #      - ../../../scripts/docker/env/production/django.env
 
