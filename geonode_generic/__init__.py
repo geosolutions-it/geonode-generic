@@ -22,6 +22,11 @@ from django.apps import AppConfig
 from django.conf import settings
 from django.db.models import signals
 
+from .celeryapp import app as celery_app
+
+__all__ = ['celery_app']
+
+
 class GenericGeonodeConfig(AppConfig):
     name = 'geonode_generic'
     verbose_name = 'Generic GeoNode'

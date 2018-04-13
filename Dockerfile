@@ -27,6 +27,9 @@ RUN chmod +x /usr/bin/wait-for-databases
 # Upgrade pip
 RUN pip install --upgrade pip
 
+# Install Celery
+RUN pip install celery==4.1.0
+
 # To understand the next section (the need for requirements.txt and setup.py)
 # Please read: https://packaging.python.org/requirements/
 
@@ -36,8 +39,10 @@ RUN pip install --upgrade pip
 #RUN pip install GDAL==2.1.3 --global-option=build_ext --global-option="-I/usr/include/gdal"
 
 # install shallow clone of geonode master branch
-RUN git clone --depth=1 git://github.com/GeoNode/geonode.git --branch master /usr/src/geonode
-RUN cd /usr/src/geonode/; pip install --no-cache-dir -r requirements.txt; pip install --no-deps -e .
+RUN git clone --depth=1 git://github.com/geosolutions-it/geonode.git --branch master /usr/src/geonode
+RUN cd /usr/src/geonode/
+RUN pip install -r requirements.txt --no-cache-dir --no-warn-conflicts
+RUN pip install -e . --no-warn-conflicts
 
 RUN ln -fs /usr/lib/python2.7/plat-x86_64-linux-gnu/_sysconfigdata*.py /usr/lib/python2.7/
 

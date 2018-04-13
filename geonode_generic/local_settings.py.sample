@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #########################################################################
 #
-# Copyright (C) 2017 OSGeo
+# Copyright (C) 2018 OSGeo
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -56,23 +56,23 @@ if EMAIL_ENABLE:
 
 DATABASES = {
     'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'geonode',
-         'USER': 'geonode',
-         'PASSWORD': 'geonode',
-         'HOST' : 'localhost',
-         'PORT' : '5432',
-         'CONN_TOUT': 900,
-     },
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'geonode',
+        'USER': 'geonode',
+        'PASSWORD': 'geonode',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'CONN_TOUT': 900,
+    },
     # vector datastore for uploads
-    'datastore' : {
+    'datastore': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'ENGINE': '', # Empty ENGINE name disables
+        # 'ENGINE': '', # Empty ENGINE name disables
         'NAME': 'geonode_data',
-        'USER' : 'geonode',
-        'PASSWORD' : 'geonode',
-        'HOST' : 'localhost',
-        'PORT' : '5432',
+        'USER': 'geonode',
+        'PASSWORD': 'geonode',
+        'HOST': 'localhost',
+        'PORT': '5432',
         'CONN_TOUT': 900,
     }
 }
@@ -108,6 +108,9 @@ OGC_SERVER = {
         'LOCATION': GEOSERVER_LOCATION,
         'LOGIN_ENDPOINT': 'j_spring_oauth2_geonode_login',
         'LOGOUT_ENDPOINT': 'j_spring_oauth2_geonode_logout',
+        # PUBLIC_LOCATION needs to be kept like this because in dev mode
+        # the proxy won't work and the integration tests will fail
+        # the entire block has to be overridden in the local_settings
         'PUBLIC_LOCATION': GEOSERVER_PUBLIC_LOCATION,
         'USER': OGC_SERVER_DEFAULT_USER,
         'PASSWORD': OGC_SERVER_DEFAULT_PASSWORD,
@@ -149,7 +152,6 @@ UPLOADER = {
         'EPSG:4326',
         'EPSG:3785',
         'EPSG:3857',
-        'EPSG:900913',
         'EPSG:32647',
         'EPSG:32736'
     ],
@@ -248,7 +250,9 @@ PYCSW = {
 
 # default map projection
 # Note: If set to EPSG:4326, then only EPSG:4326 basemaps will work.
-DEFAULT_MAP_CRS = "EPSG:900913"
+DEFAULT_MAP_CRS = "EPSG:3857"
+
+DEFAULT_LAYER_FORMAT = "image/png8"
 
 # Where should newly created maps be focused?
 DEFAULT_MAP_CENTER = (0, 0)
@@ -320,9 +324,9 @@ ALT_OSM_BASEMAPS = os.environ.get('ALT_OSM_BASEMAPS', False)
 CARTODB_BASEMAPS = os.environ.get('CARTODB_BASEMAPS', False)
 STAMEN_BASEMAPS = os.environ.get('STAMEN_BASEMAPS', False)
 THUNDERFOREST_BASEMAPS = os.environ.get('THUNDERFOREST_BASEMAPS', False)
-MAPBOX_ACCESS_TOKEN = os.environ.get('MAPBOX_ACCESS_TOKEN', '<MAPBOX_ACCESS_TOKEN>')
+MAPBOX_ACCESS_TOKEN = os.environ.get('MAPBOX_ACCESS_TOKEN', None)
 BING_API_KEY = os.environ.get('BING_API_KEY', None)
-GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY', '<GOOGLE_API_KEY>')
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY', None)
 
 MAP_BASELAYERS = [{
     "source": {"ptype": "gxp_olsource"},
@@ -422,10 +426,6 @@ LOGGING = {
         }
     },
     'handlers': {
-        'null': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.NullHandler',
-        },
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
@@ -455,8 +455,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 GEOIP_PATH = "/usr/local/share/GeoIP"
 
-MONITORING_ENABLED = True
 # add following lines to your local settings to enable monitoring
+MONITORING_ENABLED = True
+
 if MONITORING_ENABLED:
     if 'geonode.contrib.monitoring' not in INSTALLED_APPS:
         INSTALLED_APPS += ('geonode.contrib.monitoring',)
