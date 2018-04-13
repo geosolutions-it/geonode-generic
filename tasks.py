@@ -99,7 +99,7 @@ def fixtures(ctx):
 @task
 def initialized(ctx):
     print "**************************init file********************************"
-    ctx.run('date >> /mnt/volumes/statics/geonode_init.lock')
+    ctx.run('date > /mnt/volumes/statics/geonode_init.lock')
 
 
 def _docker_host_ip():
