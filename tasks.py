@@ -96,6 +96,12 @@ def fixtures(ctx):
 --settings={0}".format(_localsettings()), pty=True)
 
 
+@task
+def initialized(ctx):
+    print "**************************init file********************************"
+    ctx.run('date >> /mnt/volumes/statics/geonode_init.lock')
+
+
 def _docker_host_ip():
     client = docker.from_env()
     ip_list = client.containers.run(BOOTSTRAP_IMAGE_CHEIP,

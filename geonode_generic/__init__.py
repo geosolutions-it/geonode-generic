@@ -20,26 +20,28 @@
 
 from django.apps import AppConfig
 from django.conf import settings
-from django.db.models import signals
+from django.db.models.signals import post_migrate
 
 from .celeryapp import app as celery_app
 
 __all__ = ['celery_app']
 
 
+def autoconfigure_monitoring(*args, **kwargs):
+    from geonode.contrib.monitoring.models import Service, do_autoconfigure
+    # run autoconfigure only if there are no services defined
+    if not Service.objects.all():
+        do_autoconfigure()
+
+
 class GenericGeonodeConfig(AppConfig):
     name = 'geonode_generic'
     verbose_name = 'Generic GeoNode'
 
-    def _autoconfigure_monitoring(self, *args, **kwargs):
-        if settings.MONITORING_ENABLED:
-            from geonode.contrib.monitoring.models import Service, do_autoconfigure
-            # run autoconfigure only if there are no services defined
-            if not Service.objects.all():
-                do_autoconfigure()
-
     def ready(self):
-        signals.post_migrate.connect(self._autoconfigure_monitoring, sender=self)
+        super(GenericGeonodeConfig, self).ready()
+        if settings.MONITORING_ENABLED:
+            post_migrate.connect(autoconfigure_monitoring, sender=self)
 
 
 default_app_config = 'geonode_generic.GenericGeonodeConfig'
