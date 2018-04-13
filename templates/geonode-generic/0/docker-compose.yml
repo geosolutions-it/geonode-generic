@@ -87,12 +87,9 @@ services:
       - geoserver-data-dir:/geoserver_data/data
     environment:
         DOCKERHOST:
-        GEONODE_LB_HOST_IP:
-        GEONODE_LB_PORT:
-        PUBLIC_PORT: 80
         DOCKER_HOST_IP:
+        GEONODE_HOST_IP:
         NGINX_BASE_URL: ${SITEURL}
-        DJANGO_URL: ${SITEURL}
 #    env_file:
 #      - ../../../scripts/docker/env/production/django.env
 
