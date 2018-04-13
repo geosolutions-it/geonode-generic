@@ -40,9 +40,7 @@ RUN pip install celery==4.1.0
 
 # install shallow clone of geonode master branch
 RUN git clone --depth=1 git://github.com/geosolutions-it/geonode.git --branch master /usr/src/geonode
-RUN cd /usr/src/geonode/
-RUN pip install -r requirements.txt --no-cache-dir --no-warn-conflicts
-RUN pip install -e . --no-warn-conflicts
+RUN cd /usr/src/geonode/; pip install -r requirements.txt --no-cache-dir; pip install -e .
 
 RUN ln -fs /usr/lib/python2.7/plat-x86_64-linux-gnu/_sysconfigdata*.py /usr/lib/python2.7/
 
