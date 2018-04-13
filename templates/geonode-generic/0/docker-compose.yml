@@ -9,6 +9,7 @@ services:
     labels:
       org.geonode.component: db
       org.geonode.instance.name: geonode
+      io.rancher.container.pull_image: always
     volumes:
       - dbdata:/var/lib/postgresql/data
       - dbbackups:/pg_backups
@@ -31,6 +32,7 @@ services:
     labels:
       org.geonode.component: django
       org.geonode.instance.name: geonode
+      io.rancher.container.pull_image: always
     depends_on:
       - db
     command: uwsgi --ini /usr/src/app/uwsgi.ini
@@ -76,6 +78,7 @@ services:
     labels:
         org.geonode.component: geoserver
         org.geonode.instance.name: geonode
+        io.rancher.container.pull_image: always
     depends_on:
       - db
       - data-dir-conf
@@ -100,6 +103,7 @@ services:
     labels:
         org.geonode.component: nginx
         org.geonode.instance.name: geonode
+        io.rancher.container.pull_image: always
     depends_on:
       - django
       - geoserver
@@ -116,6 +120,7 @@ services:
     labels:
         org.geonode.component: conf
         org.geonode.instance.name: geonode
+        io.rancher.container.pull_image: always
     command: /bin/true
     volumes:
       - geoserver-data-dir:/geoserver_data/data
