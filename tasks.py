@@ -180,19 +180,19 @@ def _geonode_public_port():
 
 
 def _prepare_oauth_fixture():
-    pub_ip = _geonode_public_host_ip()
-    print "Public Hostname or IP is {0}".format(pub_ip)
-    pub_port = _geonode_public_port()
-    print "Public PORT is {0}".format(pub_port)
+    # pub_ip = _geonode_public_host_ip()
+    # print "Public Hostname or IP is {0}".format(pub_ip)
+    # pub_port = _geonode_public_port()
+    # print "Public PORT is {0}".format(pub_port)
+    # redirect_uris = "http://{0}:{1}/geoserver/index.html".format(pub_ip, pub_port)
+    redirect_uris = "{0}geoserver/index.html".format(_localsettings().SITEURL)
     default_fixture = [
         {
             "model": "oauth2_provider.application",
             "pk": 1001,
             "fields": {
                 "skip_authorization": True,
-                "redirect_uris": "http://{0}:{1}/geoserver/index.html".format(
-                    pub_ip, pub_port
-                ),
+                "redirect_uris": redirect_uris,
                 "name": "GeoServer",
                 "authorization_grant_type": "authorization-code",
                 "client_type": "confidential",
