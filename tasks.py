@@ -185,7 +185,8 @@ def _prepare_oauth_fixture():
     # pub_port = _geonode_public_port()
     # print "Public PORT is {0}".format(pub_port)
     # redirect_uris = "http://{0}:{1}/geoserver/index.html".format(pub_ip, pub_port)
-    redirect_uris = "{0}geoserver/index.html".format(_localsettings().SITEURL)
+    from django.conf import settings
+    redirect_uris = "{0}geoserver/index.html".format(settings.SITEURL)
     default_fixture = [
         {
             "model": "oauth2_provider.application",
