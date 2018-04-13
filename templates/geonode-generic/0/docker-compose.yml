@@ -83,7 +83,6 @@ services:
       - db
       - data-dir-conf
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - geoserver-data-dir:/geoserver_data/data
     environment:
         DOCKERHOST:

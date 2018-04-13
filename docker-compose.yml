@@ -18,7 +18,7 @@ services:
 
   django:
     restart: unless-stopped
-    build: . 
+    build: .
     # image: geonode/geonode:latest
     container_name: django4${COMPOSE_PROJECT_NAME}
     stdin_open: true
@@ -48,7 +48,6 @@ services:
       - db
       - data-dir-conf
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - geoserver-data-dir:/geoserver_data/data
     env_file:
       - ./scripts/docker/env/production/geoserver.env
