@@ -9,8 +9,8 @@ proj==0.1.0
 pyproj==1.9.5.1
 pygdal==2.1.2.3
 inflection==0.3.1
-flake8==2.5.4
-pyflakes==0.8.1
+flake8==2.6.2
+pyflakes==1.2.3
 python-dateutil==2.6.1
 docker
 invoke
