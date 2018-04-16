@@ -2,7 +2,7 @@
 version: '2'
 catalog:
     name: "GeoNode generic"
-    version: "v1.0"
+    version: "v1.1"
     description: "Generic GeoNode deployment"
     uuid: geonode-generic-0
     minimum_rancher_version: 'v1.6'
@@ -54,6 +54,16 @@ catalog:
                 receive notifications. Entries
                 should be separated with coma.
           required: false
+          type: string
+          default:
+
+        - variable: "HOST_AFFINITY"
+          label: "Label of host to deploy on"
+          description: |
+                To keep containers running on specific
+                hosts, provide label attached to host
+                to deploy on.
+          required: true
           type: string
           default:
 
