@@ -70,14 +70,24 @@ catalog:
 services:
     db:
         scale: 1
+        labels:
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
     django:
         retain_ip: true
         scale: 1
+        labels:
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
     geoserver:
         scale: 1
+        labels:
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
     geonode:
         scale: 1
+        labels:
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
     data-dir-conf:
         labels:
-            io.rancher.container.start_once: true
+            io.rancher.container.start_once: true        
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
         scale: 1
+
