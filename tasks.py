@@ -69,6 +69,10 @@ def migrations(ctx):
     ctx.run("python manage.py migrate --noinput --settings={0}".format(
         _localsettings()
     ), pty=True)
+    ctx.run("python manage.py updategeoip --noinput --settings={0}".format(
+        _localsettings()
+    ), pty=True)
+
 
 @task
 def statics(ctx):

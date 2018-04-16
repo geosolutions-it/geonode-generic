@@ -90,3 +90,17 @@ loaders = TEMPLATES[0]['OPTIONS'].get('loaders') or ['django.template.loaders.fi
 # loaders.insert(0, 'apptemplates.Loader')
 TEMPLATES[0]['OPTIONS']['loaders'] = loaders
 TEMPLATES[0].pop('APP_DIRS', None)
+
+MONITORING_ENABLED = True
+
+if MONITORING_ENABLED:
+    if 'geonode.contrib.monitoring' not in INSTALLED_APPS:
+        INSTALLED_APPS += ('geonode.contrib.monitoring',)
+    if 'geonode.contrib.monitoring.middleware.MonitoringMiddleware' not in MIDDLEWARE_CLASSES:
+        MIDDLEWARE_CLASSES += \
+            ('geonode.contrib.monitoring.middleware.MonitoringMiddleware',)
+    MONITORING_HOST_NAME = os.getenv("MONITORING_HOST_NAME", 'localhost')
+    MONITORING_SERVICE_NAME = 'local-geonode'
+
+    GEOIP_PATH = os.path.join(LOCAL_ROOT, 'GeoIPCities.dat')
+
