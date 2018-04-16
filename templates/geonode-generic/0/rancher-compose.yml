@@ -2,7 +2,7 @@
 version: '2'
 catalog:
     name: "GeoNode generic"
-    version: "v1.0"
+    version: "v1.1"
     description: "Generic GeoNode deployment"
     uuid: geonode-generic-0
     minimum_rancher_version: 'v1.6'
@@ -57,17 +57,37 @@ catalog:
           type: string
           default:
 
+        - variable: "HOST_AFFINITY"
+          label: "Label of host to deploy on"
+          description: |
+                To keep containers running on specific
+                hosts, provide label attached to host
+                to deploy on.
+          required: true
+          type: string
+          default:
+
 services:
     db:
         scale: 1
+        labels:
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
     django:
         retain_ip: true
         scale: 1
+        labels:
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
     geoserver:
         scale: 1
+        labels:
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
     geonode:
         scale: 1
+        labels:
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
     data-dir-conf:
         labels:
-            io.rancher.container.start_once: true
+            io.rancher.container.start_once: true        
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
         scale: 1
+
