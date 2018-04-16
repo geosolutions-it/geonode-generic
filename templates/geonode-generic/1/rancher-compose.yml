@@ -57,16 +57,6 @@ catalog:
           type: string
           default:
 
-        - variable: "HOST_AFFINITY"
-          label: "Label of host to deploy on"
-          description: |
-                To keep containers running on specific
-                hosts, provide label attached to host
-                to deploy on.
-          required: true
-          type: string
-          default:
-
 services:
     db:
         scale: 1
