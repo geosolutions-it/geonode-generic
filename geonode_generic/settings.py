@@ -20,6 +20,7 @@
 
 # Django settings for the GeoNode project.
 import os
+from urlparse import urlparse, urlunparse
 # Load more settings from a file called local_settings.py if it exists
 #try:
 #    from geonode.local_settings import *
@@ -30,6 +31,14 @@ from geonode.settings import *
 # General Django development settings
 #
 PROJECT_NAME = 'geonode_generic'
+
+# we need hostname for deployed 
+surl = urlparse(SITEURL)
+hostname = surl.hostname
+
+# add trailing slash to site url. geoserver url will be relative to this
+if not SITEURL.endswith('/'):
+    SITEURL = '{}/'.format(SITEURL)
 
 SITENAME = os.getenv("SITENAME", 'geonode_generic')
 
@@ -66,13 +75,16 @@ MANAGERS = ADMINS = os.getenv('ADMINS', [])
 
 INSTALLED_APPS += ('geonode', PROJECT_NAME,)
 
+# volume within container
+_STATIC_DIR = '/mnt/volumes/statics'
+
 # Location of url mappings
 ROOT_URLCONF = os.getenv('ROOT_URLCONF', '{}.urls'.format(PROJECT_NAME))
 
-MEDIA_ROOT = os.getenv('MEDIA_ROOT', os.path.join(LOCAL_ROOT, "uploaded"))
+MEDIA_ROOT = os.getenv('MEDIA_ROOT', os.path.join(_STATIC_DIR, "uploaded"))
 
 STATIC_ROOT = os.getenv('STATIC_ROOT',
-                        os.path.join(LOCAL_ROOT, "static_root")
+                        os.path.join(_STATIC_DIR, "static")
                         )
 
 # Additional directories which hold static files
@@ -91,6 +103,16 @@ loaders = TEMPLATES[0]['OPTIONS'].get('loaders') or ['django.template.loaders.fi
 TEMPLATES[0]['OPTIONS']['loaders'] = loaders
 TEMPLATES[0].pop('APP_DIRS', None)
 
+GEOSERVER_LOCATION = os.getenv(
+    'GEOSERVER_LOCATION', 'http://geoserver:8080/geoserver/'
+)
+
+GEOSERVER_PUBLIC_LOCATION = os.getenv(
+    'GEOSERVER_PUBLIC_LOCATION', '{}geoserver/'.format(SITEURL))
+)
+
+
+
 MONITORING_ENABLED = True
 
 if MONITORING_ENABLED:
@@ -99,8 +121,8 @@ if MONITORING_ENABLED:
     if 'geonode.contrib.monitoring.middleware.MonitoringMiddleware' not in MIDDLEWARE_CLASSES:
         MIDDLEWARE_CLASSES += \
             ('geonode.contrib.monitoring.middleware.MonitoringMiddleware',)
-    MONITORING_HOST_NAME = os.getenv("MONITORING_HOST_NAME", 'localhost')
-    MONITORING_SERVICE_NAME = 'local-geonode'
+    MONITORING_HOST_NAME = os.getenv("MONITORING_HOST_NAME", hostname)
+    MONITORING_SERVICE_NAME = 'geonode'
 
-    GEOIP_PATH = os.path.join(LOCAL_ROOT, 'GeoIPCities.dat')
-
+    # by default, geoip db should be in volume path, as it's persistent
+    GEOIP_PATH = os.getenv('GEOIP_PATH', os.path.join(_STATIC_DIR, 'GeoIPCities.dat'))
