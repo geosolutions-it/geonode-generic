@@ -111,18 +111,8 @@ GEOSERVER_PUBLIC_LOCATION = os.getenv(
     'GEOSERVER_PUBLIC_LOCATION', '{}geoserver/'.format(SITEURL))
 )
 
+MONITORING_HOST_NAME = os.getenv("MONITORING_HOST_NAME", hostname)
+MONITORING_SERVICE_NAME = 'geonode'
 
-
-MONITORING_ENABLED = True
-
-if MONITORING_ENABLED:
-    if 'geonode.contrib.monitoring' not in INSTALLED_APPS:
-        INSTALLED_APPS += ('geonode.contrib.monitoring',)
-    if 'geonode.contrib.monitoring.middleware.MonitoringMiddleware' not in MIDDLEWARE_CLASSES:
-        MIDDLEWARE_CLASSES += \
-            ('geonode.contrib.monitoring.middleware.MonitoringMiddleware',)
-    MONITORING_HOST_NAME = os.getenv("MONITORING_HOST_NAME", hostname)
-    MONITORING_SERVICE_NAME = 'geonode'
-
-    # by default, geoip db should be in volume path, as it's persistent
-    GEOIP_PATH = os.getenv('GEOIP_PATH', os.path.join(_STATIC_DIR, 'GeoIPCities.dat'))
+# by default, geoip db should be in volume path, as it's persistent
+GEOIP_PATH = os.getenv('GEOIP_PATH', os.path.join(_STATIC_DIR, 'GeoIPCities.dat'))
