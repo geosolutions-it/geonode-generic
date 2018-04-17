@@ -97,5 +97,6 @@ TEMPLATES[0].pop('APP_DIRS', None)
 MONITORING_HOST_NAME = os.getenv("MONITORING_HOST_NAME", hostname)
 MONITORING_SERVICE_NAME = 'geonode'
 
+_STATIC_DIR = '/mnt/volumes/statics'
 # by default, geoip db should be in volume path, as it's persistent
 GEOIP_PATH = os.getenv('GEOIP_PATH', os.path.join(_STATIC_DIR, 'GeoIPCities.dat'))
