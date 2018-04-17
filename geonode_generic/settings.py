@@ -109,7 +109,6 @@ GEOSERVER_LOCATION = os.getenv(
 
 GEOSERVER_PUBLIC_LOCATION = os.getenv(
     'GEOSERVER_PUBLIC_LOCATION', '{}geoserver/'.format(SITEURL))
-)
 
 MONITORING_HOST_NAME = os.getenv("MONITORING_HOST_NAME", hostname)
 MONITORING_SERVICE_NAME = 'geonode'
