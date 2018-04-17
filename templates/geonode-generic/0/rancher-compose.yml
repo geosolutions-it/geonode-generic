@@ -34,7 +34,8 @@ catalog:
           label: "Default URL for site"
           description: |
                 URL to default location of site. It will be used
-                to construct absolute urls.
+                to construct absolute urls. Remember to add trailing
+                slash at the end.
           required: true
           type: 'string'
           default:
