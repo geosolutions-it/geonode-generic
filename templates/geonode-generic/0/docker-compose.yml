@@ -69,6 +69,8 @@ services:
        GEOIP_PATH: /mnt/volumes/statics/geoip.db
        ALLOWED_HOSTS: ${ALLOWED_HOSTS}
        ADMIN_EMAILS: ${ADMIN_EMAILS}
+       RANCHER_STACK: {{ .Stack.Name }}
+       RANCHER_ENV: {{ .Environment.Name }}
 
 
   geoserver:
