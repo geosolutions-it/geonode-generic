@@ -129,7 +129,7 @@ services:
       - geoserver-data-dir:/geoserver_data/data
 
   backup:
-    image: geosolutions/geonode-backup:latest
+    image: geosolutionsit/geonode-backup:latest
     restart: unless-stopped
     container_name: backup4${COMPOSE_PROJECT_NAME}
     stdin_open: true
