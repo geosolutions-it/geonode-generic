@@ -78,6 +78,9 @@ services:
         scale: 1
         labels:
             io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
+        environment:
+            - RANCHER_STACK: {{.Stack.Name}}
+            - RANCHER_ENV: {{.Environment.Name}}
     geoserver:
         scale: 1
         labels:
