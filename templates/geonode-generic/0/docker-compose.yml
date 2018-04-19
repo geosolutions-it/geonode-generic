@@ -145,6 +145,10 @@ services:
       - statics:/mnt/volumes/statics/
       - geoserver-data-dir:/mnt/volumes/data/
       - dbbackups:/mnt/volumes/backups/
+    environment:
+      # mind that following lines are rancher-specific
+      RANCHER_STACK: {{ .Stack.Name }}
+      RANCHER_ENV: {{ .Environment.Name }}
 
 volumes:
   geoserver-data-dir:
