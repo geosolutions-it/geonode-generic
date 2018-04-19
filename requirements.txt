@@ -1,4 +1,4 @@
-Django<1.9
+Django<1.10
 #six==1.10.0
 django-cuser==2017.3.16
 django-model-utils==3.0.0
