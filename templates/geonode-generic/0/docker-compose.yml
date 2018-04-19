@@ -149,6 +149,8 @@ services:
       # mind that following lines are rancher-specific
       RANCHER_STACK: {{ .Stack.Name }}
       RANCHER_ENV: {{ .Environment.Name }}
+      PGUSER: postgresql
+      PGHOST: db
 
 volumes:
   geoserver-data-dir:
