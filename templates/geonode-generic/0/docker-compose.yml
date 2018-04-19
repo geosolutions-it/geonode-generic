@@ -32,7 +32,7 @@ services:
     labels:
       org.geonode.component: django
       org.geonode.instance.name: geonode
-      io.rancher.container.pull_image: always
+      #io.rancher.container.pull_image: always
     depends_on:
       - db
     command: uwsgi --ini /usr/src/app/uwsgi.ini
