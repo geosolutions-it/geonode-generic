@@ -21,6 +21,7 @@
 from django.apps import AppConfig
 from django.conf import settings
 from django.db.models.signals import post_migrate
+from datetime import datetime
 
 from .celeryapp import app as celery_app
 
@@ -32,7 +33,10 @@ def autoconfigure_monitoring(*args, **kwargs):
     # run autoconfigure only if there are no services defined
     if not Service.objects.all():
         do_autoconfigure()
-
+    for s in Service.objects.all():
+        if s.last_check is None:
+            s.last_check = datetime.now()
+            s.save()
 
 class GenericGeonodeConfig(AppConfig):
     name = 'geonode_generic'
