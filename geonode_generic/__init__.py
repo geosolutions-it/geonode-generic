@@ -27,16 +27,21 @@ from .celeryapp import app as celery_app
 
 __all__ = ['celery_app']
 
+def populate_service_last_check():
+    from geonode.contrib.monitoring.models import Service
+    # populate empty service.last_check for better collection
+    for s in Service.objects.all():
+        if not s.last_check:
+            s.last_check = datetime.now()
+            s.save()
+
 
 def autoconfigure_monitoring(*args, **kwargs):
     from geonode.contrib.monitoring.models import Service, do_autoconfigure
     # run autoconfigure only if there are no services defined
     if not Service.objects.all():
         do_autoconfigure()
-    for s in Service.objects.all():
-        if s.last_check is None:
-            s.last_check = datetime.now()
-            s.save()
+    populate_service_last_check()
 
 class GenericGeonodeConfig(AppConfig):
     name = 'geonode_generic'
