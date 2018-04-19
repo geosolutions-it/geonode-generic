@@ -69,6 +69,9 @@ services:
        GEOIP_PATH: /mnt/volumes/statics/geoip.db
        ALLOWED_HOSTS: ${ALLOWED_HOSTS}
        ADMIN_EMAILS: ${ADMIN_EMAILS}
+       # mind that following lines are rancher-specific
+       RANCHER_STACK: {{ .Stack.Name }}
+       RANCHER_ENV: {{ .Environment.Name }}
 
 
   geoserver:
@@ -125,8 +128,29 @@ services:
     volumes:
       - geoserver-data-dir:/geoserver_data/data
 
-volumes:
+  backup:
+    image: geosolutionsit/geonode-backup:latest
+    restart: unless-stopped
+    container_name: backup4${COMPOSE_PROJECT_NAME}
+    stdin_open: true
+    # tty: true
+    labels:
+        org.geonode.component: backup
+        org.geonode.instance.name: geonode
+    depends_on:
+      - django
+      - geoserver
+      - db
+    volumes:
+      - statics:/mnt/volumes/statics/
+      - geoserver-data-dir:/mnt/volumes/data/
+      - dbbackups:/mnt/volumes/backups/
+    environment:
+      # mind that following lines are rancher-specific
+      RANCHER_STACK: {{ .Stack.Name }}
+      RANCHER_ENV: {{ .Environment.Name }}
 
+volumes:
   geoserver-data-dir:
 #    name: ${COMPOSE_PROJECT_NAME}-gsdatadir
   dbdata:
