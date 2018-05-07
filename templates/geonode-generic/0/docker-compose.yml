@@ -91,7 +91,6 @@ services:
       - geoserver-data-dir:/geoserver_data/data
     environment:
       GEOSERVER_ADMIN_PASSWORD: ${GEOSERVER_ADMIN_PASSWORD}
-      GEOSERVER_ADMIN_USER: ${GEOSERVER_ADMIN_USER}
       DOCKERHOST:
       DOCKER_HOST_IP:
       GEONODE_HOST_IP:
