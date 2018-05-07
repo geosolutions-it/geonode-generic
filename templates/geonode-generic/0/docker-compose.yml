@@ -73,7 +73,6 @@ services:
        RANCHER_STACK: {{ .Stack.Name }}
        RANCHER_ENV: {{ .Environment.Name }}
        GEOSERVER_ADMIN_PASSWORD: ${GEOSERVER_ADMIN_PASSWORD}
-       GEOSERVER_ADMIN_USER: ${GEOSERVER_ADMIN_USER}
 
   geoserver:
     image: geosolutionsit/geoserver-docker:2.12.x
