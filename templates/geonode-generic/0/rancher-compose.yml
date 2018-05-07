@@ -57,6 +57,22 @@ catalog:
           required: false
           type: string
           default:
+        
+        - variable: "GEOSERVER_ADMIN_USER"
+          label: "Username for GeoServer user"
+          description: |
+                Username for admin user (default: admin).
+          required: true
+          type: string
+          default: 
+
+        - variable: "GEOSERVER_ADMIN_PASSWORD"
+          label: "Password for GeoServer user"
+          description: |
+                Password for admin user (default: admin).
+          required: true
+          type: string
+          default: 
 
         - variable: "HOST_AFFINITY"
           label: "Label of host to deploy on"
