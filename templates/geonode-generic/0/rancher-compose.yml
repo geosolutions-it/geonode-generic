@@ -69,10 +69,10 @@ catalog:
         - variable: "GEOSERVER_ADMIN_PASSWORD"
           label: "Password for GeoServer user"
           description: |
-                Password for admin user (default: admin).
+                Password for admin user (default `admin`).
           required: true
           type: string
-          default: 
+          default:
 
         - variable: "HOST_AFFINITY"
           label: "Label of host to deploy on"
