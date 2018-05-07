@@ -32,7 +32,7 @@ services:
     labels:
       org.geonode.component: django
       org.geonode.instance.name: geonode
-      #io.rancher.container.pull_image: always
+      io.rancher.container.pull_image: always
     depends_on:
       - db
     command: uwsgi --ini /usr/src/app/uwsgi.ini
@@ -84,7 +84,7 @@ services:
     labels:
         org.geonode.component: geoserver
         org.geonode.instance.name: geonode
-        io.rancher.container.pull_image: always
+        #io.rancher.container.pull_image: always
     depends_on:
       - db
       - data-dir-conf
@@ -109,7 +109,7 @@ services:
     labels:
         org.geonode.component: nginx
         org.geonode.instance.name: geonode
-        io.rancher.container.pull_image: always
+        # io.rancher.container.pull_image: always
     depends_on:
       - django
       - geoserver
