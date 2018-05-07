@@ -72,7 +72,8 @@ services:
        # mind that following lines are rancher-specific
        RANCHER_STACK: {{ .Stack.Name }}
        RANCHER_ENV: {{ .Environment.Name }}
-
+       GEOSERVER_ADMIN_PASSWORD: ${GEOSERVER_ADMIN_PASSWORD}
+       GEOSERVER_ADMIN_USER: ${GEOSERVER_ADMIN_USER}
 
   geoserver:
     image: geosolutionsit/geoserver-docker:2.12.x
@@ -90,10 +91,12 @@ services:
     volumes:
       - geoserver-data-dir:/geoserver_data/data
     environment:
-        DOCKERHOST:
-        DOCKER_HOST_IP:
-        GEONODE_HOST_IP:
-        NGINX_BASE_URL: ${SITEURL}
+      GEOSERVER_ADMIN_PASSWORD: ${GEOSERVER_ADMIN_PASSWORD}
+      GEOSERVER_ADMIN_USER: ${GEOSERVER_ADMIN_USER}
+      DOCKERHOST:
+      DOCKER_HOST_IP:
+      GEONODE_HOST_IP:
+      NGINX_BASE_URL: ${SITEURL}
 #    env_file:
 #      - ../../../scripts/docker/env/production/django.env
 
