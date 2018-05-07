@@ -57,19 +57,11 @@ catalog:
           required: false
           type: string
           default:
-        
-        - variable: "GEOSERVER_ADMIN_USER"
-          label: "Username for GeoServer user"
-          description: |
-                Username for admin user (default: admin).
-          required: true
-          type: string
-          default: 
 
         - variable: "GEOSERVER_ADMIN_PASSWORD"
-          label: "Password for GeoServer user"
+          label: "Password for GeoServer admin user"
           description: |
-                Password for admin user (default `admin`).
+                Password for admin user in GeoServer.
           required: true
           type: string
           default:
