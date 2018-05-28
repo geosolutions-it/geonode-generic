@@ -39,7 +39,7 @@ RUN pip install celery==4.1.0
 #RUN pip install GDAL==2.1.3 --global-option=build_ext --global-option="-I/usr/include/gdal"
 
 # install shallow clone of geonode master branch
-RUN git clone --depth=1 git://github.com/geosolutions-it/geonode.git --branch monitoring_autoconfigure_service_last_check /usr/src/geonode
+RUN git clone --depth=1 git://github.com/geosolutions-it/geonode.git --branch master /usr/src/geonode
 RUN cd /usr/src/geonode/; pip install -r requirements.txt --no-cache-dir; pip install -e .
 
 # fix for known bug in system-wide packages
