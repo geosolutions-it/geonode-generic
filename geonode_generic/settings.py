@@ -73,7 +73,7 @@ AUTH_IP_WHITELIST = []
 
 MANAGERS = ADMINS = os.getenv('ADMINS', [])
 
-INSTALLED_APPS += ('geonode', PROJECT_NAME,)
+INSTALLED_APPS += (PROJECT_NAME,)
 
 # Location of url mappings
 ROOT_URLCONF = os.getenv('ROOT_URLCONF', '{}.urls'.format(PROJECT_NAME))
