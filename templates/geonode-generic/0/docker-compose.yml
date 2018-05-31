@@ -160,7 +160,7 @@ volumes:
 #    name: ${COMPOSE_PROJECT_NAME}-dbdata
   dbbackups:
      driver: ${BACKUPS_VOLUME_DRIVER}
-     external: ${BACKUPS_VOLUME_EXTERNAL}
+     external: {{ .Values.BACKUPS_VOLUME_EXTERNAL }}
 #    name: ${COMPOSE_PROJECT_NAME}-dbbackups
   statics:
 #    name: ${COMPOSE_PROJECT_NAME}-statics
