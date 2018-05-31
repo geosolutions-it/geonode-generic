@@ -159,6 +159,7 @@ volumes:
   dbdata:
 #    name: ${COMPOSE_PROJECT_NAME}-dbdata
   dbbackups:
+     driver: ${BACKUPS_VOLUME_DRIVER}
 #    name: ${COMPOSE_PROJECT_NAME}-dbbackups
   statics:
 #    name: ${COMPOSE_PROJECT_NAME}-statics

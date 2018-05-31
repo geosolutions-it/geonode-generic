@@ -76,6 +76,15 @@ catalog:
           type: string
           default:
 
+        - variable: "BACKUPS_VOLUME_DRIVER"
+          label: "Backups Volume driver to use"
+          description: |
+              Volume driver to use for the Volume attached
+              to the abckups container (local, rancher-nfs, ...)
+          required: true
+          type: string
+          default: local
+
 services:
     db:
         scale: 1
