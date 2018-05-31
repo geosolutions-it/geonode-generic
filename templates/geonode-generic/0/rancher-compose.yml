@@ -16,7 +16,7 @@ catalog:
                 or load balancer running on host, you should set distinct
                 port here.
           default: 80
-          required: true
+          required: false
           type: "int"
         - variable: "ALLOWED_HOSTS"
           label: "List of allowed host header values"
