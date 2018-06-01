@@ -73,6 +73,9 @@ services:
        RANCHER_STACK: {{ .Stack.Name }}
        RANCHER_ENV: {{ .Environment.Name }}
        GEOSERVER_ADMIN_PASSWORD: ${GEOSERVER_ADMIN_PASSWORD}
+       # See https://github.com/geosolutions-it/geonode-generic/issues/28
+       # to see why we force API version to 1.24
+       DOCKER_API_VERSION: "1.24"
 
   geoserver:
     image: geosolutionsit/geoserver-docker:2.12.x
