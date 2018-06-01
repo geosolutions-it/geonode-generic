@@ -150,7 +150,7 @@ services:
       # mind that following lines are rancher-specific
       RANCHER_STACK: {{ .Stack.Name }}
       RANCHER_ENV: {{ .Environment.Name }}
-      PGUSER: postgresql
+      PGUSER: postgres
       PGHOST: db
 
 volumes:
