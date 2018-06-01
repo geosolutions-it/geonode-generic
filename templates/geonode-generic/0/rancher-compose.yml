@@ -8,16 +8,16 @@ catalog:
     minimum_rancher_version: 'v1.6'
 
     questions:
-        - variable: "EXPOSED_HTTP_PORT"
-          label: "External ngxin port"
+        - variable: "NGINX_PORT_MAPPING"
+          label: "Port mapping for Nginx container"
           description: |
-                Port number on which nginx from this deployment will
-                be visible on the host. If you have multiple stacks or nginx
-                or load balancer running on host, you should set distinct
-                port here.
-          default: 80
-          required: false
-          type: "int"
+              Port mapping for Nginx container. For instance "80:80"
+              will map Nginx port 80 to port 80 of the host machine.
+              Set to "80" to assign a random port
+
+          default: "80:80"
+          required: true
+          type: "string"
         - variable: "ALLOWED_HOSTS"
           label: "List of allowed host header values"
           description: |
