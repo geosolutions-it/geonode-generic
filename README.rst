@@ -3,12 +3,14 @@ Geonode_Generic
 
 GeoNode "materialized" project for vanilla GeoNode deployments.
 
-Server startup with Rancher 1.6
+Setup with Rancher 1.6
 ----------------
 
 Currently this repository supports setup through Rancher 1.6.
-The catalog template is publicly available at https://store.docker.com/community/images/geosolutionsit/geonode-generic
-You can load the template from Rancher UI or Rancher CLI and set the questions / variables defined in the racher compose file.
+The catalog template is publicly available at https://store.docker.com/community/images/geosolutionsit/geonode-generic.
+You can load the template from Rancher UI or Rancher CLI and set the questions / variables defined in the Rancher compose file.
+
+A standalone docker-compose will be reintroduced later.
 
 
 Configuration
