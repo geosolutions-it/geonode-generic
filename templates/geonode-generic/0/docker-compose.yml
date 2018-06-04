@@ -21,7 +21,7 @@ services:
 
   django:
     restart: unless-stopped
-    image: geosolutionsit/geonode-generic:master
+    image: geosolutionsit/geonode-generic:1.0
     container_name: django4${COMPOSE_PROJECT_NAME}
     stdin_open: true
     # tty: true
