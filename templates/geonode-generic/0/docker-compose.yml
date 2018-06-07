@@ -9,7 +9,7 @@ services:
     labels:
       org.geonode.component: db
       org.geonode.instance.name: geonode
-      io.rancher.container.pull_image: always
+#      io.rancher.container.pull_image: always
     volumes:
       - dbdata:/var/lib/postgresql/data
       - dbbackups:/pg_backups
@@ -32,7 +32,7 @@ services:
     labels:
       org.geonode.component: django
       org.geonode.instance.name: geonode
-      io.rancher.container.pull_image: always
+#      io.rancher.container.pull_image: always
     depends_on:
       - db
     command: uwsgi --ini /usr/src/app/uwsgi.ini
@@ -83,7 +83,7 @@ services:
     labels:
         org.geonode.component: geoserver
         org.geonode.instance.name: geonode
-        io.rancher.container.pull_image: always
+#        io.rancher.container.pull_image: always
     depends_on:
       - db
       - data-dir-conf
@@ -107,7 +107,7 @@ services:
     labels:
         org.geonode.component: nginx
         org.geonode.instance.name: geonode
-        io.rancher.container.pull_image: always
+#        io.rancher.container.pull_image: always
     depends_on:
       - django
       - geoserver
@@ -124,7 +124,7 @@ services:
     labels:
         org.geonode.component: conf
         org.geonode.instance.name: geonode
-        io.rancher.container.pull_image: always
+#        io.rancher.container.pull_image: always
     command: /bin/true
     volumes:
       - geoserver-data-dir:/geoserver_data/data
@@ -152,6 +152,31 @@ services:
       RANCHER_ENV: {{ .Environment.Name }}
       PGUSER: postgres
       PGHOST: db
+
+  restore:
+    image: geosolutionsit/geonode-restore:latest
+    restart: unless-stopped
+    container_name: restore4${COMPOSE_PROJECT_NAME}
+    stdin_open: true
+    # tty: true
+    labels:
+        org.geonode.component: restore
+        org.geonode.instance.name: geonode
+    depends_on:
+      - django
+      - geoserver
+      - db
+    volumes:
+      - statics:/mnt/volumes/statics/
+      - geoserver-data-dir:/mnt/volumes/data/
+      - dbbackups:/mnt/volumes/backups/
+    environment:
+      # mind that following lines are rancher-specific
+      RANCHER_STACK: {{ .Stack.Name }}
+      RANCHER_ENV: {{ .Environment.Name }}
+      PGUSER: postgres
+      PGHOST: db
+
 
 volumes:
   geoserver-data-dir:
