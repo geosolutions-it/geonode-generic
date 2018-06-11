@@ -3,23 +3,14 @@ Geonode_Generic
 
 GeoNode "materialized" project for vanilla GeoNode deployments.
 
-
-Server startup
+Setup with Rancher 1.6
 ----------------
 
-You need Docker 1.12 or higher, get the latest stable official release for your platform. Run `docker-compose` to start it up (get a cup of coffee or tea while you wait)::
+Currently this repository supports setup through Rancher 1.6.
+The catalog template is publicly available at https://store.docker.com/community/images/geosolutionsit/geonode-generic.
+You can load the template from Rancher UI or Rancher CLI and set the questions / variables defined in the Rancher compose file.
 
-    docker-compose up
-
-Create the tables in your postgres database::
-
-    docker-compose run django python manage.py migrate
-
-Set up a superuser so you can access the admin area::
-
-    docker-compose run django python manage.py createsuperuser
-
-Access the site on http://localhost/
+A standalone docker-compose will be reintroduced later.
 
 
 Configuration

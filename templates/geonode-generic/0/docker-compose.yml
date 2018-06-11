@@ -18,14 +18,10 @@ services:
       GEONODE_DATABASE_PASSWORD: geonode
       GEONODE_GEODATABASE: geonode_data
       GEONODE_GEODATABASE_PASSWORD: geonode_data
-#    env_file:
-#      - ../../../scripts/docker/env/production/db.env
 
   django:
     restart: unless-stopped
-    image: geosolutionsit/geonode-generic:master
-#    build: ../../../.
-    # image: geonode/geonode:latest
+    image: geosolutionsit/geonode-generic:1.0
     container_name: django4${COMPOSE_PROJECT_NAME}
     stdin_open: true
     # tty: true
@@ -40,10 +36,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - statics:/mnt/volumes/statics
-
-    #env_file:
-    #  - ../../../scripts/docker/env/production/django.env
-
     environment:
        GEONODE_INSTANCE_NAME: geonode
        GEONODE_LB_HOST_IP:
@@ -74,6 +66,9 @@ services:
        RANCHER_STACK: {{ .Stack.Name }}
        RANCHER_ENV: {{ .Environment.Name }}
        GEOSERVER_ADMIN_PASSWORD: ${GEOSERVER_ADMIN_PASSWORD}
+       # See https://github.com/geosolutions-it/geonode-generic/issues/28
+       # to see why we force API version to 1.24
+       DOCKER_API_VERSION: "1.24"
 
   geoserver:
     image: geosolutionsit/geoserver-docker:2.12.x
@@ -97,8 +92,6 @@ services:
       DOCKER_HOST_IP:
       GEONODE_HOST_IP:
       NGINX_BASE_URL: ${SITEURL}
-#    env_file:
-#      - ../../../scripts/docker/env/production/django.env
 
   geonode:
     image: geosolutionsit/nginx-geonode:latest
@@ -115,7 +108,7 @@ services:
       - geoserver
       - restore
     ports:
-      - "${EXPOSED_HTTP_PORT}:80"
+      - "${NGINX_PORT_MAPPING}"
     volumes:
       - statics:/mnt/volumes/statics
 
@@ -186,6 +179,8 @@ volumes:
   dbdata:
 #    name: ${COMPOSE_PROJECT_NAME}-dbdata
   dbbackups:
+     driver: ${BACKUPS_VOLUME_DRIVER}
+     external: {{ .Values.BACKUPS_VOLUME_EXTERNAL }}
 #    name: ${COMPOSE_PROJECT_NAME}-dbbackups
   statics:
 #    name: ${COMPOSE_PROJECT_NAME}-statics
