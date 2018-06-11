@@ -2,8 +2,8 @@
 version: '2'
 catalog:
     name: "GeoNode generic"
-    version: "v1.0"
-    description: "Generic GeoNode deployment"
+    version: "v1.1"
+    description: "Generic GeoNode deployment. This version has improved connection strings for db."
     uuid: geonode-generic-0
     minimum_rancher_version: 'v1.6'
 
@@ -95,6 +95,7 @@ catalog:
           required: true
           type: boolean
           default: false
+
 services:
     db:
         scale: 1
