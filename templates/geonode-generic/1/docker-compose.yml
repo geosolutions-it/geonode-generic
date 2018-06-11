@@ -48,7 +48,8 @@ services:
        GEONODE_INSTANCE_NAME: geonode
        GEONODE_LB_HOST_IP:
        GEONODE_LB_PORT:
-       DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
+       DATABASE_URL: postgres://geonode:geonode@db:5432/geonode
+       GEODATABASE_URL: postgis://geonode:geonode@db:5432/geonode_data
        DEFAULT_BACKEND_DATASTORE: datastore
        GEONODE_DATABASE: geonode
        GEONODE_DATABASE_PASSWORD: geonode

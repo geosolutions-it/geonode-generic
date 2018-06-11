@@ -1,0 +1,111 @@
+---
+version: '2'
+catalog:
+    name: "GeoNode generic"
+    version: "v1.2"
+    description: "Generic GeoNode deployment. This version has improved connection strings for db."
+    uuid: geonode-generic-0
+    minimum_rancher_version: 'v1.6'
+
+    questions:
+        - variable: "EXPOSED_HTTP_PORT"
+          label: "External ngxin port"
+          description: |
+                Port number on which nginx from this deployment will
+                be visible on the host. If you have multiple stacks or nginx
+                or load balancer running on host, you should set distinct
+                port here.
+          default: 80
+          required: true
+          type: "int"
+        - variable: "ALLOWED_HOSTS"
+          label: "List of allowed host header values"
+          description: |
+                List of host header values which should be
+                permitted. You should add full-qualified domain
+                names under which deployment is visible. Default
+                values, django and geonode values are
+                added internally.
+          required: true
+          type: string
+          default: "[]"
+
+        - variable: "SITEURL"
+          label: "Default URL for site"
+          description: |
+                URL to default location of site. It will be used
+                to construct absolute urls. Remember to add trailing
+                slash at the end.
+          required: true
+          type: 'string'
+          default:
+
+        - variable: "SITENAME"
+          label: "Name of site"
+          description: |
+                Name of the site to be used in title
+          required: false
+          default: "GeoNode"
+          type: string
+
+        - variable: "ADMIN_EMAILS"
+          label: "List of admin emails"
+          description: |
+                List of emails of admins, who should
+                receive notifications. Entries
+                should be separated with coma.
+          required: false
+          type: string
+          default:
+
+        - variable: "GEOSERVER_ADMIN_PASSWORD"
+          label: "Password for GeoServer admin user"
+          description: |
+                Password for admin user in GeoServer.
+          required: true
+          type: string
+          default:
+
+        - variable: "HOST_AFFINITY"
+          label: "Label of host to deploy on"
+          description: |
+                To keep containers running on specific
+                hosts, provide label attached to host
+                to deploy on.
+          required: true
+          type: string
+          default:
+
+services:
+    db:
+        scale: 1
+        labels:
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
+    django:
+        retain_ip: true
+        scale: 1
+        labels:
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
+    geoserver:
+        scale: 1
+        labels:
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
+    geonode:
+        scale: 1
+        labels:
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
+    data-dir-conf:
+        labels:
+            io.rancher.container.start_once: true        
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
+        scale: 1
+    backup:
+        scale: 1
+        labels:
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
+    restore:
+        scale: 1
+        start_on_create: false
+        labels:
+            io.rancher.container.start_once: true        
+            io.rancher.scheduler.affinity:host_label: ${HOST_AFFINITY}
